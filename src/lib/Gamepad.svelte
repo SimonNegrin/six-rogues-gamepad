@@ -74,9 +74,7 @@
   tabindex="-1"
 >
   <div class="w-1/3 relative">
-    <div
-      class="absolute bottom-4 left-4 w-65 h-65 rounded-full overflow-hidden"
-    >
+    <div class="absolute bottom-4 left-4 w-65 h-65">
       <Joystick onchange={onjoystick} />
     </div>
   </div>

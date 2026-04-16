@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { JoystickState } from "../types"
+  import type { JoystickState, Point } from "../types"
 
   let {
     onchange,
@@ -7,7 +7,9 @@
     onchange: (state: JoystickState) => void
   } = $props()
 
-  const THRESHOLD = 30
+  const THRESHOLD = 35
+
+  let center: Point = $state({ x: 0, y: 0 })
 
   function handleTouch(event: TouchEvent): void {
     const target = event.currentTarget as HTMLDivElement
@@ -20,8 +22,13 @@
     const radius = Math.hypot(x, y)
 
     if (radius < THRESHOLD) {
+      center.x = 0
+      center.y = 0
       return
     }
+
+    center.x = x
+    center.y = y
 
     const state = angleToState(Math.atan2(y, x))
     onchange(state)
@@ -64,6 +71,8 @@
   }
 
   function ontouchend(): void {
+    center.x = 0
+    center.y = 0
     onchange({
       top: false,
       right: false,
@@ -74,7 +83,7 @@
 </script>
 
 <div
-  class="w-full h-full bg-indigo-500 flex justify-center items-center"
+  class="w-full h-full rounded-full bg-indigo-200 flex justify-center items-center"
   tabindex="-1"
   role="button"
   ontouchstart={handleTouch}
@@ -82,5 +91,8 @@
   {ontouchend}
 >
   <!-- center -->
-  <div class="w-5 h-5 rounded-full bg-red-500"></div>
+  <div
+    class="w-24 h-24 rounded-full duration-100 bg-indigo-500"
+    style:transform="translate({center.x}px, {center.y}px)"
+  ></div>
 </div>

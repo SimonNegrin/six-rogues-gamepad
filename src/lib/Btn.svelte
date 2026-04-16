@@ -7,7 +7,7 @@
     onchange: (isDown: boolean) => void
   } = $props()
 
-  const delay = new Delay(300)
+  const delay = new Delay(200)
 
   let isDown = $state(false)
 
@@ -27,7 +27,7 @@
 
 <div class="w-20 h-20 relative">
   <div
-    class="absolute w-24 h-24 -top-2 -left-2 bg-green-500 rounded-full"
+    class="absolute w-24 h-24 -top-2 -left-2 duration-100 bg-green-500 rounded-full"
     class:bg-indigo-500={isDown}
     tabindex="-1"
     role="button"
