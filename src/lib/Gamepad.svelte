@@ -83,14 +83,14 @@
   <div class="w-1/3"></div>
   <div class="w-1/3 relative">
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
-      <div class="h-1/3 flex justify-center items-center">
+      <div class="h-1/3 flex justify-center items-start">
         <Btn onchange={abtn} />
       </div>
       <div class="h-1/3 flex justify-between items-center">
         <Btn onchange={dbtn} />
         <Btn onchange={bbtn} />
       </div>
-      <div class="h-1/3 flex justify-center items-center">
+      <div class="h-1/3 flex justify-center items-end">
         <Btn onchange={cbtn} />
       </div>
     </div>
