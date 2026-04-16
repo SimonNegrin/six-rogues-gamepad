@@ -9,6 +9,12 @@
 
   const THRESHOLD = 35
 
+  let lastState: JoystickState = {
+    top: false,
+    right: false,
+    bottom: false,
+    left: false,
+  }
   let center: Point = $state({ x: 0, y: 0 })
 
   function handleTouch(event: TouchEvent): void {
@@ -31,7 +37,22 @@
     center.y = y
 
     const state = angleToState(Math.atan2(y, x))
+
+    if (isEqualState(state, lastState)) {
+      return
+    }
+
+    lastState = state
     onchange(state)
+  }
+
+  function isEqualState(a: JoystickState, b: JoystickState): boolean {
+    return (
+      a.top === b.top &&
+      a.bottom === b.bottom &&
+      a.left === b.left &&
+      a.right === b.right
+    )
   }
 
   function angleToState(rad: number): JoystickState {
