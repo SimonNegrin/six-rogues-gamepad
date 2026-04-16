@@ -28,6 +28,7 @@
 
   onMount(() => {
     on(gamepadEl, "touchstart", preventDefault, { passive: false })
+    on(gamepadEl, "touchmove", preventDefault, { passive: false })
     on(gamepadEl, "touchend", preventDefault, { passive: false })
   })
 
@@ -72,24 +73,24 @@
   aria-label="Gamepad táctil"
   tabindex="-1"
 >
-  <div class="w-1/3 bg-blue-400 relative">
+  <div class="w-1/3 relative">
     <div
       class="absolute bottom-4 left-4 w-65 h-65 rounded-full overflow-hidden"
     >
       <Joystick onchange={onjoystick} />
     </div>
   </div>
-  <div class="w-1/3 bg-green-400"></div>
+  <div class="w-1/3"></div>
   <div class="w-1/3 relative">
-    <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col bg-amber-800">
-      <div class="h-1/3 bg-fuchsia-400 flex justify-center items-center">
+    <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
+      <div class="h-1/3 flex justify-center items-center">
         <Btn onchange={abtn} />
       </div>
-      <div class="h-1/3 bg-fuchsia-500 flex justify-between items-center">
+      <div class="h-1/3 flex justify-between items-center">
         <Btn onchange={dbtn} />
         <Btn onchange={bbtn} />
       </div>
-      <div class="h-1/3 bg-fuchsia-600 flex justify-center items-center">
+      <div class="h-1/3 flex justify-center items-center">
         <Btn onchange={cbtn} />
       </div>
     </div>
