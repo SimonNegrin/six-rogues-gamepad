@@ -1,35 +1,63 @@
 <script lang="ts">
   import Btn from "./Btn.svelte"
   import Joystick from "./Joystick.svelte"
-  import type { JoystickState } from "../types"
+  import type { GamepadState, JoystickState } from "../types"
   import { onMount } from "svelte"
   import { on } from "svelte/events"
 
+  let {
+    onchange,
+  }: {
+    onchange: (state: GamepadState) => void
+  } = $props()
+
   let gamepadEl: HTMLDivElement
+
+  let state: GamepadState = {
+    joystick: {
+      top: false,
+      bottom: false,
+      left: false,
+      right: false,
+    },
+    abtn: false,
+    bbtn: false,
+    cbtn: false,
+    dbtn: false,
+  }
 
   onMount(() => {
     on(gamepadEl, "touchstart", preventDefault, { passive: false })
     on(gamepadEl, "touchend", preventDefault, { passive: false })
   })
 
-  function onjoystick(state: JoystickState): void {
-    console.log(state)
+  function emit(): void {
+    onchange(state)
   }
 
-  function abtn(isDown: boolean): void {
-    console.log("abtn", isDown)
+  function onjoystick(joystick: JoystickState): void {
+    state = { ...state, joystick }
+    emit()
   }
 
-  function bbtn(isDown: boolean): void {
-    console.log("bbtn", isDown)
+  function abtn(abtn: boolean): void {
+    state = { ...state, abtn }
+    emit()
   }
 
-  function cbtn(isDown: boolean): void {
-    console.log("cbtn", isDown)
+  function bbtn(bbtn: boolean): void {
+    state = { ...state, bbtn }
+    emit()
   }
 
-  function dbtn(isDown: boolean): void {
-    console.log("dbtn", isDown)
+  function cbtn(cbtn: boolean): void {
+    state = { ...state, cbtn }
+    emit()
+  }
+
+  function dbtn(dbtn: boolean): void {
+    state = { ...state, dbtn }
+    emit()
   }
 
   function preventDefault(event: TouchEvent): void {

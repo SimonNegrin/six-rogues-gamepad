@@ -4,3 +4,11 @@ export interface JoystickState {
   bottom: boolean
   left: boolean
 }
+
+export interface GamepadState {
+  joystick: JoystickState
+  abtn: boolean
+  bbtn: boolean
+  cbtn: boolean
+  dbtn: boolean
+}
