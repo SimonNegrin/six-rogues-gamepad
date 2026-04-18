@@ -1,10 +1,23 @@
 <script lang="ts">
+  import { onMount } from "svelte"
   import { PKT_GAMEPAD_STATE } from "./lib/contants"
   import Gamepad from "./lib/Gamepad.svelte"
   import type { GamepadState } from "./types"
+  import { connect, connection, sendData } from "./lib/connection.svelte"
+
+  onMount(() => {
+    const roomId = new URL(location.href).searchParams.get("r")
+    if (!roomId) {
+      console.warn("Room ID is required")
+      return
+    }
+    console.log({ roomId })
+    connect(roomId)
+  })
 
   function onchange(gamepadState: GamepadState): void {
     const buffer = gamepadStateToArrayBuffer(gamepadState)
+    sendData(buffer)
   }
 
   function gamepadStateToArrayBuffer(gamepadState: GamepadState): ArrayBuffer {
@@ -33,4 +46,12 @@
   }
 </script>
 
-<Gamepad {onchange} />
+<div class="w-dvw h-dvh">
+  {#if connection.status === "CONN_CLOSED"}
+    <div>Conectando a la sala...</div>
+  {:else if connection.status === "CONN_OPENNING"}
+    <div>Signaling...</div>
+  {:else if connection.status === "CONN_OPEN"}
+    <Gamepad {onchange} />
+  {/if}
+</div>
