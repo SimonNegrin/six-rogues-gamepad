@@ -24,7 +24,7 @@ export interface PlayerPreset {
   sprite: RogueSpriteName
   name: string
   genre: "male" | "female"
-  statPoints: number
+  points: number
   movement: number
   actions: number
   attack: number

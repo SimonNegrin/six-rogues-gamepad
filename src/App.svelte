@@ -47,12 +47,12 @@
 </script>
 
 <div class="w-dvw h-dvh" style:--tile-size="{TILE_SIZE}px">
-  <PlayerConfig />
-  <!-- {#if connection.status === "CONN_CLOSED"}
+  {#if connection.status === "CONN_CLOSED"}
     <div>Conectando a la sala...</div>
   {:else if connection.status === "CONN_OPENNING"}
     <div>Signaling...</div>
   {:else if connection.status === "CONN_OPEN"}
-    <Gamepad {onchange} />
-  {/if} -->
+    <PlayerConfig />
+    <!-- <Gamepad {onchange} /> -->
+  {/if}
 </div>
