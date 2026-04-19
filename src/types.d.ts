@@ -1,3 +1,5 @@
+import type { RogueSpriteName } from "./lib/SpriteRogue.svelte"
+
 export interface Point {
   x: number
   y: number
@@ -16,4 +18,17 @@ export interface GamepadState {
   bbtn: boolean
   cbtn: boolean
   dbtn: boolean
+}
+
+export interface PlayerPreset {
+  sprite: RogueSpriteName
+  name: string
+  genre: "male" | "female"
+  statPoints: number
+  movement: number
+  actions: number
+  attack: number
+  defence: number
+  aim: number
+  magic: number
 }

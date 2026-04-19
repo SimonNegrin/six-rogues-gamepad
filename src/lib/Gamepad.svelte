@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Btn from "./Btn.svelte"
+  import GamepadBtn from "./GamepadBtn.svelte"
   import Joystick from "./Joystick.svelte"
   import type { GamepadState, JoystickState } from "../types"
   import { onMount } from "svelte"
@@ -82,14 +82,14 @@
   <div class="w-1/3 relative">
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
       <div class="h-1/3 flex justify-center items-start">
-        <Btn onchange={abtn} />
+        <GamepadBtn onchange={abtn} />
       </div>
       <div class="h-1/3 flex justify-between items-center">
-        <Btn onchange={dbtn} />
-        <Btn onchange={bbtn} />
+        <GamepadBtn onchange={dbtn} />
+        <GamepadBtn onchange={bbtn} />
       </div>
       <div class="h-1/3 flex justify-center items-end">
-        <Btn onchange={cbtn} />
+        <GamepadBtn onchange={cbtn} />
       </div>
     </div>
   </div>

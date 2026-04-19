@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { PKT_GAMEPAD_STATE } from "./lib/contants"
+  import { PKT_GAMEPAD_STATE, TILE_SIZE } from "./lib/contants"
   import Gamepad from "./lib/Gamepad.svelte"
   import type { GamepadState } from "./types"
   import { connect, connection, sendData } from "./lib/connection.svelte"
+  import PlayerConfig from "./lib/PlayerConfig.svelte"
 
   onMount(() => {
     const roomId = new URL(location.href).searchParams.get("r")
@@ -21,11 +22,6 @@
   }
 
   function gamepadStateToArrayBuffer(gamepadState: GamepadState): ArrayBuffer {
-    const packet = new Uint8Array(2)
-
-    // Byte 1: Tipo de paquete (1 = gamepad update)
-    packet[0] = PKT_GAMEPAD_STATE
-
     // Byte 2: Estado de los botones (cada bit es un botón)
     let buttons = 0
 
@@ -41,17 +37,22 @@
     buttons |= +gamepadState.cbtn << 1
     buttons |= +gamepadState.dbtn
 
+    const packet = new Uint8Array(2)
+
+    packet[0] = PKT_GAMEPAD_STATE
     packet[1] = buttons
+
     return packet.buffer
   }
 </script>
 
-<div class="w-dvw h-dvh">
-  {#if connection.status === "CONN_CLOSED"}
+<div class="w-dvw h-dvh" style:--tile-size="{TILE_SIZE}px">
+  <PlayerConfig />
+  <!-- {#if connection.status === "CONN_CLOSED"}
     <div>Conectando a la sala...</div>
   {:else if connection.status === "CONN_OPENNING"}
     <div>Signaling...</div>
   {:else if connection.status === "CONN_OPEN"}
     <Gamepad {onchange} />
-  {/if}
+  {/if} -->
 </div>
