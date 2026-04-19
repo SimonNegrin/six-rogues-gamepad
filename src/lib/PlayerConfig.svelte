@@ -28,7 +28,7 @@
 
   function nextPreset(): void {
     presetIndex = (presetIndex + 1) % playerPresets.length
-    preset = { ...playerPresets[presetIndex] }
+    preset = structuredClone(playerPresets[presetIndex])
   }
 
   function decrementStat(stat: ConfigurableStat): void {
@@ -36,10 +36,8 @@
   }
 
   function incrementStat(stat: ConfigurableStat): void {
-    const usedPoints = calcUsedPoints(preset)
-    if (usedPoints < preset.statPoints) {
-      preset[stat]++
-    }
+    if (!pointsLeft) return
+    preset[stat]++
   }
 </script>
 
@@ -68,39 +66,66 @@
       </div>
     </div>
 
-    <div class="p-8 grid grid-rows-3 grid-cols-2 gap-8">
-      <StatCtrl
-        stat={preset.attack}
-        ondecrement={() => decrementStat("attack")}
-        onincrement={() => incrementStat("attack")}
-      />
+    <div class="p-8 pt-0 grid grid-rows-3 grid-cols-2 gap-4">
+      <div>
+        <div class="text-xl">Movimiento</div>
+        <StatCtrl
+          stat={preset.movement}
+          ondecrement={() => decrementStat("movement")}
+          onincrement={() => incrementStat("movement")}
+          item="leather boots"
+        />
+      </div>
 
-      <StatCtrl
-        stat={preset.defence}
-        ondecrement={() => decrementStat("defence")}
-        onincrement={() => incrementStat("defence")}
-      />
+      <div>
+        <div class="text-xl">Acciones</div>
+        <StatCtrl
+          stat={preset.actions}
+          ondecrement={() => decrementStat("actions")}
+          onincrement={() => incrementStat("actions")}
+          item="leather gloves"
+        />
+      </div>
 
-      <StatCtrl
-        stat={preset.movement}
-        ondecrement={() => decrementStat("movement")}
-        onincrement={() => incrementStat("movement")}
-      />
-      <StatCtrl
-        stat={preset.actions}
-        ondecrement={() => decrementStat("actions")}
-        onincrement={() => incrementStat("actions")}
-      />
-      <StatCtrl
-        stat={preset.aim}
-        ondecrement={() => decrementStat("aim")}
-        onincrement={() => incrementStat("aim")}
-      />
-      <StatCtrl
-        stat={preset.magic}
-        ondecrement={() => decrementStat("magic")}
-        onincrement={() => incrementStat("magic")}
-      />
+      <div>
+        <div class="text-xl">Ataque</div>
+        <StatCtrl
+          stat={preset.attack}
+          ondecrement={() => decrementStat("attack")}
+          onincrement={() => incrementStat("attack")}
+          item="short sword"
+        />
+      </div>
+
+      <div>
+        <div class="text-xl">Defensa</div>
+        <StatCtrl
+          stat={preset.defence}
+          ondecrement={() => decrementStat("defence")}
+          onincrement={() => incrementStat("defence")}
+          item="buckler"
+        />
+      </div>
+
+      <div>
+        <div class="text-xl">Puntería</div>
+        <StatCtrl
+          stat={preset.aim}
+          ondecrement={() => decrementStat("aim")}
+          onincrement={() => incrementStat("aim")}
+          item="arrows"
+        />
+      </div>
+
+      <div>
+        <div class="text-xl">Magia</div>
+        <StatCtrl
+          stat={preset.magic}
+          ondecrement={() => decrementStat("magic")}
+          onincrement={() => incrementStat("magic")}
+          item="wide-brimmed hat"
+        />
+      </div>
     </div>
   </div>
 </div>

@@ -1,12 +1,18 @@
 <script lang="ts">
+  import type { Snippet } from "svelte"
+  import type { ItemSpriteName } from "./SpriteItem.svelte"
+  import SpriteItem from "./SpriteItem.svelte"
+
   let {
     stat,
     onincrement,
     ondecrement,
+    item,
   }: {
     stat: number
     onincrement: () => void
     ondecrement: () => void
+    item: ItemSpriteName
   } = $props()
 </script>
 
@@ -18,8 +24,11 @@
   >
     -
   </button>
-  <div class="w-22 flex justify-center items-center bg-green-200">
-    {stat}
+  <div class="w-22 flex justify-evenly items-center bg-green-200">
+    <SpriteItem name={item} scale={1.5} />
+    <div>
+      {stat}
+    </div>
   </div>
   <button
     type="button"
