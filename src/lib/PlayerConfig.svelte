@@ -2,11 +2,12 @@
   import type { PlayerPreset } from "../types"
   import Button from "./Button.svelte"
   import { sendData } from "./connection.svelte"
-  import { PKT_PLAYER_CONFIG } from "./contants"
+  import { PKT_PLAYER_ACCEPT, PKT_PLAYER_CONFIG } from "./contants"
   import InputText from "./InputText.svelte"
   import { playerPresets } from "./players"
   import SpriteRogue from "./SpriteRogue.svelte"
   import StatCtrl from "./StatCtrl.svelte"
+  import { globalState } from "./state.svelte"
 
   type ConfigurableStat = keyof Pick<
     PlayerPreset,
@@ -28,13 +29,15 @@
   // svelte-ignore state_referenced_locally
   let preset: PlayerPreset = $state({ ...playerPresets[presetIndex] })
 
-  $effect(() => sendPlayerConfig(preset))
+  $effect(() => {
+    sendPreset(PKT_PLAYER_CONFIG, preset)
+  })
 
-  function sendPlayerConfig(preset: PlayerPreset): void {
+  function sendPreset(pktType: number, preset: PlayerPreset): void {
     const encoder = new TextEncoder()
     const data = encoder.encode(JSON.stringify(preset))
     const pkt = new Uint8Array(1 + data.length)
-    pkt[0] = PKT_PLAYER_CONFIG
+    pkt[0] = pktType
     pkt.set(data, 1)
     sendData(pkt.buffer)
   }
@@ -54,7 +57,6 @@
 
   function incrementStat(stat: ConfigurableStat): void {
     const points = preset[stat] === 0 ? FIRST_LEVEL_COST : statCost[stat]
-
     if (points <= preset.points) {
       preset[stat]++
       preset.points -= points
@@ -63,6 +65,8 @@
 
   function accept(): void {
     // Send the final player config to the game screen
+    sendPreset(PKT_PLAYER_ACCEPT, preset)
+    globalState.player = preset
   }
 </script>
 

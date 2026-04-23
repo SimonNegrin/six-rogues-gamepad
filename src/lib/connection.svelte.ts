@@ -31,7 +31,7 @@ export const CONN_OPENNING = "CONN_OPENNING"
 export const CONN_OPEN = "CONN_OPEN"
 export const CONN_ERROR = "CONN_ERROR"
 
-type ConnStatus =
+export type ConnStatus =
   | typeof CONN_CLOSED
   | typeof CONN_OPENNING
   | typeof CONN_OPEN

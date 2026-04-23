@@ -4,7 +4,7 @@
   let {
     onclick,
     children,
-    className,
+    className = "bg-green-600 border-green-400 border-4 px-4 py-2 text-white",
   }: {
     onclick: () => void
     children: Snippet
