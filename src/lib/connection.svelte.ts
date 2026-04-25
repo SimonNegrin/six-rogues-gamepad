@@ -46,6 +46,8 @@ export const connection = $state<{
   status: CONN_CLOSED,
 })
 
+const showLog = false
+
 let peerConnection: RTCPeerConnection | undefined
 let signalingConnection: SignalingConnection | undefined
 let dataChannel: RTCDataChannel | undefined
@@ -69,6 +71,12 @@ export async function connect(roomId: string): Promise<void> {
   signalingConnection.joinRoom(roomId)
 }
 
+function log(...msg: any[]): void {
+  if (showLog) {
+    console.log(...msg)
+  }
+}
+
 export function sendData(data: ArrayBuffer): void {
   if (connection.status !== CONN_OPEN) {
     throw new Error("Connection is not open")
@@ -86,7 +94,7 @@ export function onPkt(pkt: number, handler: PktHandler): void {
 }
 
 async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
-  console.log(`Offer received`, offer)
+  log(`Offer received`, offer)
 
   peerConnection = new RTCPeerConnection({
     iceServers: ICE_SERVERS,
@@ -102,26 +110,26 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
     dataChannel = event.channel
 
     dataChannel.addEventListener("message", (event) => {
-      console.log("Message received")
+      log("Message received")
       const pkt = new Uint8Array(event.data)
       const [pktId] = pkt
       const handlers = handlersMap.get(pktId)
       if (!handlers) {
-        console.warn(`Unknown package received: ${pktId}`)
+        log(`Unknown package received: ${pktId}`)
         return
       }
       handlers.forEach((handler) => handler(pkt))
     })
 
     dataChannel.addEventListener("open", () => {
-      console.log("Data channel open")
+      log("Data channel open")
       signalingConnection?.disconnect()
       signalingConnection = undefined
       connection.status = CONN_OPEN
     })
 
     dataChannel.addEventListener("error", (event) => {
-      console.error(`RTCErrorEvent: ${event.error}`)
+      log(`RTCErrorEvent: ${event.error}`)
       connection.status = CONN_ERROR
       clearConnection()
     })
@@ -136,12 +144,12 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
 async function onRemoteCandidate(
   candidate: RTCIceCandidateInit,
 ): Promise<void> {
-  console.log("Remote ICE candidate received")
+  log("Remote ICE candidate received")
   await peerConnection!.addIceCandidate(candidate)
 }
 
 function onSignalingDisconnect(): void {
-  console.log("Signaling disconnected")
+  log("Signaling disconnected")
 }
 
 function clearConnection(): void {

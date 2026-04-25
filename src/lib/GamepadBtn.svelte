@@ -5,23 +5,25 @@
   let {
     onchange,
     children,
+    delay = 200,
   }: {
     onchange: (isDown: boolean) => void
     children: Snippet
+    delay?: number
   } = $props()
 
-  const delay = new Delay(200)
+  const delayed = $derived(new Delay(delay))
 
   let isDown = $state(false)
 
   function ontouchstart(): void {
-    delay.schedule(() => {
+    delayed.schedule(() => {
       onchange((isDown = true))
     })
   }
 
   function ontouchend(): void {
-    delay.cancel()
+    delayed.cancel()
     if (isDown) {
       onchange((isDown = false))
     }

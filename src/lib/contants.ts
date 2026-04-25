@@ -8,3 +8,4 @@ export const PKT_PLAYER_READY = 5
 export const PKT_GAME_START = 6
 export const PKT_ENABLE_TURN = 7
 export const PKT_DISABLE_TURN = 8
+export const PKT_NEXT_PLAYER = 9

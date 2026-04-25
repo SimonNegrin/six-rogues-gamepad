@@ -5,16 +5,11 @@
   import { onMount } from "svelte"
   import { on } from "svelte/events"
   import SpriteItem from "./SpriteItem.svelte"
+  import { sendData } from "./connection.svelte"
+  import { PKT_GAMEPAD_STATE, PKT_NEXT_PLAYER } from "./contants"
+  import CenterContent from "./CenterContent.svelte"
 
-  let {
-    onchange,
-  }: {
-    onchange: (state: GamepadState) => void
-  } = $props()
-
-  let gamepadEl: HTMLDivElement
-
-  let state: GamepadState = {
+  const state: GamepadState = {
     joystick: {
       top: false,
       bottom: false,
@@ -27,43 +22,73 @@
     dbtn: false,
   }
 
+  let gamepadEl: HTMLDivElement
+
   onMount(() => {
     on(gamepadEl, "touchstart", preventDefault, { passive: false })
     on(gamepadEl, "touchmove", preventDefault, { passive: false })
     on(gamepadEl, "touchend", preventDefault, { passive: false })
   })
 
-  function emit(): void {
-    onchange(state)
+  function sendState(): void {
+    const pkt = gamepadStateToPkt(state)
+    sendData(pkt.buffer)
+  }
+
+  function gamepadStateToPkt(
+    gamepadState: GamepadState,
+  ): Uint8Array<ArrayBuffer> {
+    let btns = 0
+
+    // Joystick state
+    btns |= +gamepadState.joystick.top << 7
+    btns |= +gamepadState.joystick.right << 6
+    btns |= +gamepadState.joystick.bottom << 5
+    btns |= +gamepadState.joystick.left << 4
+
+    // Buttons state
+    btns |= +gamepadState.abtn << 3
+    btns |= +gamepadState.bbtn << 2
+    btns |= +gamepadState.cbtn << 1
+    btns |= +gamepadState.dbtn
+
+    return new Uint8Array([PKT_GAMEPAD_STATE, btns])
   }
 
   function onjoystick(joystick: JoystickState): void {
     state.joystick = joystick
-    emit()
+    sendState()
   }
 
   function abtn(abtn: boolean): void {
     state.abtn = abtn
-    emit()
+    sendState()
   }
 
   function bbtn(bbtn: boolean): void {
     state.bbtn = bbtn
-    emit()
+    sendState()
   }
 
   function cbtn(cbtn: boolean): void {
     state.cbtn = cbtn
-    emit()
+    sendState()
   }
 
   function dbtn(dbtn: boolean): void {
     state.dbtn = dbtn
-    emit()
+    sendState()
   }
 
   function preventDefault(event: TouchEvent): void {
     event.preventDefault()
+  }
+
+  function onNext(isDown: boolean): void {
+    if (isDown) {
+      const pkt = new Uint8Array([PKT_NEXT_PLAYER])
+      sendData(pkt.buffer)
+    }
   }
 </script>
 
@@ -79,7 +104,11 @@
       <Joystick onchange={onjoystick} />
     </div>
   </div>
-  <div class="w-1/3"></div>
+  <div class="w-1/3">
+    <CenterContent>
+      <GamepadBtn onchange={onNext} delay={400}>Next</GamepadBtn>
+    </CenterContent>
+  </div>
   <div class="w-1/3 relative">
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
       <div class="h-1/3 flex justify-center items-start">
@@ -88,7 +117,7 @@
         </GamepadBtn>
       </div>
       <div class="h-1/3 flex justify-between items-center">
-        <GamepadBtn onchange={cbtn}>
+        <GamepadBtn onchange={dbtn}>
           <SpriteItem name="arrows" scale={2} />
         </GamepadBtn>
         <GamepadBtn onchange={bbtn}>
