@@ -1,4 +1,7 @@
+import type { PktHandler } from "../types"
 import SignalingConnection from "./SignalingConnection"
+
+const handlersMap = new Map<number, Set<PktHandler>>()
 
 const ICE_SERVERS: RTCIceServer[] = [
   {
@@ -73,6 +76,15 @@ export function sendData(data: ArrayBuffer): void {
   dataChannel!.send(data)
 }
 
+export function onPkt(pkt: number, handler: PktHandler): void {
+  let handlers = handlersMap.get(pkt)
+  if (!handlers) {
+    handlers = new Set<PktHandler>()
+    handlersMap.set(pkt, handlers)
+  }
+  handlers.add(handler)
+}
+
 async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
   console.log(`Offer received`, offer)
 
@@ -88,6 +100,18 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
 
   peerConnection.addEventListener("datachannel", (event) => {
     dataChannel = event.channel
+
+    dataChannel.addEventListener("message", (event) => {
+      console.log("Message received")
+      const pkt = new Uint8Array(event.data)
+      const [pktId] = pkt
+      const handlers = handlersMap.get(pktId)
+      if (!handlers) {
+        console.warn(`Unknown package received: ${pktId}`)
+        return
+      }
+      handlers.forEach((handler) => handler(pkt))
+    })
 
     dataChannel.addEventListener("open", () => {
       console.log("Data channel open")

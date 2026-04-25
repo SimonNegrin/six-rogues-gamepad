@@ -32,3 +32,5 @@ export interface PlayerPreset {
   aim: number
   magic: number
 }
+
+export type PktHandler = (pkt: Uint8Array) => void

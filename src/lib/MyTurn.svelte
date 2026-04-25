@@ -5,11 +5,13 @@
   import Gamepad from "./Gamepad.svelte"
 
   function onchange(gamepadState: GamepadState): void {
-    const pkt = gamepadStateToArrayBuffer(gamepadState)
-    sendData(pkt)
+    const pkt = gamepadStateToPkt(gamepadState)
+    sendData(pkt.buffer)
   }
 
-  function gamepadStateToArrayBuffer(gamepadState: GamepadState): ArrayBuffer {
+  function gamepadStateToPkt(
+    gamepadState: GamepadState,
+  ): Uint8Array<ArrayBuffer> {
     // Byte 2: Estado de los botones (cada bit es un botón)
     let btns = 0
 
@@ -25,12 +27,12 @@
     btns |= +gamepadState.cbtn << 1
     btns |= +gamepadState.dbtn
 
-    const packet = new Uint8Array(2)
+    const pkt = new Uint8Array(2)
 
-    packet[0] = PKT_GAMEPAD_STATE
-    packet[1] = btns
+    pkt[0] = PKT_GAMEPAD_STATE
+    pkt[1] = btns
 
-    return packet.buffer
+    return pkt
   }
 </script>
 

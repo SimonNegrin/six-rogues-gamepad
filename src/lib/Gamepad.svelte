@@ -4,6 +4,7 @@
   import type { GamepadState, JoystickState } from "../types"
   import { onMount } from "svelte"
   import { on } from "svelte/events"
+  import SpriteItem from "./SpriteItem.svelte"
 
   let {
     onchange,
@@ -37,27 +38,27 @@
   }
 
   function onjoystick(joystick: JoystickState): void {
-    state = { ...state, joystick }
+    state.joystick = joystick
     emit()
   }
 
   function abtn(abtn: boolean): void {
-    state = { ...state, abtn }
+    state.abtn = abtn
     emit()
   }
 
   function bbtn(bbtn: boolean): void {
-    state = { ...state, bbtn }
+    state.bbtn = bbtn
     emit()
   }
 
   function cbtn(cbtn: boolean): void {
-    state = { ...state, cbtn }
+    state.cbtn = cbtn
     emit()
   }
 
   function dbtn(dbtn: boolean): void {
-    state = { ...state, dbtn }
+    state.dbtn = dbtn
     emit()
   }
 
@@ -82,14 +83,22 @@
   <div class="w-1/3 relative">
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
       <div class="h-1/3 flex justify-center items-start">
-        <GamepadBtn onchange={abtn} />
+        <GamepadBtn onchange={abtn}>
+          <SpriteItem name="wide-brimmed hat" scale={2} />
+        </GamepadBtn>
       </div>
       <div class="h-1/3 flex justify-between items-center">
-        <GamepadBtn onchange={dbtn} />
-        <GamepadBtn onchange={bbtn} />
+        <GamepadBtn onchange={cbtn}>
+          <SpriteItem name="arrows" scale={2} />
+        </GamepadBtn>
+        <GamepadBtn onchange={bbtn}>
+          <SpriteItem name="short sword" scale={2} />
+        </GamepadBtn>
       </div>
       <div class="h-1/3 flex justify-center items-end">
-        <GamepadBtn onchange={cbtn} />
+        <GamepadBtn onchange={cbtn}>
+          <SpriteItem name="leather boots" scale={2} />
+        </GamepadBtn>
       </div>
     </div>
   </div>

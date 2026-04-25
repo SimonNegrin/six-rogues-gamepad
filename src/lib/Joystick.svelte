@@ -36,14 +36,14 @@
     center.x = x
     center.y = y
 
-    const state = angleToState(Math.atan2(y, x))
+    const newState = angleToState(Math.atan2(y, x))
 
-    if (isEqualState(state, lastState)) {
+    if (isEqualState(newState, lastState)) {
       return
     }
 
-    lastState = state
-    onchange(state)
+    lastState = newState
+    onchange(newState)
   }
 
   function isEqualState(a: JoystickState, b: JoystickState): boolean {
@@ -94,12 +94,13 @@
   function ontouchend(): void {
     center.x = 0
     center.y = 0
-    onchange({
+    lastState = {
       top: false,
       right: false,
       bottom: false,
       left: false,
-    })
+    }
+    onchange(lastState)
   }
 </script>
 
