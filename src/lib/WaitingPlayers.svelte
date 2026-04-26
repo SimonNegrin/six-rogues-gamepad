@@ -3,6 +3,7 @@
   import CenterContent from "./CenterContent.svelte"
   import { sendData } from "./connection.svelte"
   import { PKT_PLAYER_READY } from "./contants"
+  import FullScreenBtn from "./FullScreenBtn.svelte"
 
   let imReady = $state(false)
 
@@ -20,4 +21,6 @@
   {:else}
     <Button onclick={sendReady}>I'm ready</Button>
   {/if}
+
+  <FullScreenBtn />
 </CenterContent>

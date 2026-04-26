@@ -10,7 +10,6 @@
       console.warn("Room ID is required")
       return
     }
-    console.log({ roomId })
     connect(roomId)
   })
 </script>

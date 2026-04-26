@@ -7,6 +7,7 @@
     PKT_PLAYER_ACCEPT,
     PKT_PLAYER_CONFIG,
   } from "./contants"
+  import FullScreenBtn from "./FullScreenBtn.svelte"
   import InputText from "./InputText.svelte"
   import { playerPresets } from "./players"
   import SpriteRogue from "./SpriteRogue.svelte"
@@ -179,6 +180,10 @@
           onincrement={() => incrementStat("magic")}
           item="wide-brimmed hat"
         />
+      </div>
+
+      <div class="col-start-3 self-end flex justify-end">
+        <FullScreenBtn />
       </div>
     </div>
   </div>

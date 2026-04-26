@@ -2,12 +2,13 @@
   import GamepadBtn from "./GamepadBtn.svelte"
   import Joystick from "./Joystick.svelte"
   import type { GamepadState, JoystickState } from "../types"
-  import { onMount } from "svelte"
   import { on } from "svelte/events"
   import SpriteItem from "./SpriteItem.svelte"
   import { sendData } from "./connection.svelte"
   import { PKT_GAMEPAD_STATE, PKT_NEXT_PLAYER } from "./contants"
   import CenterContent from "./CenterContent.svelte"
+  import FullScreenBtn from "./FullScreenBtn.svelte"
+  import type { Attachment } from "svelte/attachments"
 
   const state: GamepadState = {
     joystick: {
@@ -21,14 +22,6 @@
     cbtn: false,
     dbtn: false,
   }
-
-  let gamepadEl: HTMLDivElement
-
-  onMount(() => {
-    on(gamepadEl, "touchstart", preventDefault, { passive: false })
-    on(gamepadEl, "touchmove", preventDefault, { passive: false })
-    on(gamepadEl, "touchend", preventDefault, { passive: false })
-  })
 
   function sendState(): void {
     const pkt = gamepadStateToPkt(state)
@@ -80,7 +73,7 @@
     sendState()
   }
 
-  function preventDefault(event: TouchEvent): void {
+  function preventDefault(event: Event): void {
     event.preventDefault()
   }
 
@@ -90,26 +83,34 @@
       sendData(pkt.buffer)
     }
   }
+
+  const cancelTouch: Attachment = (el: Element) => {
+    on(el, "touchstart", preventDefault, { passive: false })
+    on(el, "touchmove", preventDefault, { passive: false })
+    on(el, "touchend", preventDefault, { passive: false })
+  }
 </script>
 
 <div
-  bind:this={gamepadEl}
   class="w-dvw h-dvh bg-amber-400 flex"
   role="group"
   aria-label="Gamepad táctil"
   tabindex="-1"
 >
-  <div class="w-1/3 relative">
+  <div class="w-1/3 relative" {@attach cancelTouch}>
     <div class="absolute bottom-4 left-4 w-65 h-65">
       <Joystick onchange={onjoystick} />
     </div>
   </div>
   <div class="w-1/3">
     <CenterContent>
-      <GamepadBtn onchange={onNext} delay={400}>Next</GamepadBtn>
+      <FullScreenBtn />
+      <div {@attach cancelTouch}>
+        <GamepadBtn onchange={onNext} delay={400}>Next</GamepadBtn>
+      </div>
     </CenterContent>
   </div>
-  <div class="w-1/3 relative">
+  <div class="w-1/3 relative" {@attach cancelTouch}>
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
       <div class="h-1/3 flex justify-center items-start">
         <GamepadBtn onchange={abtn}>
