@@ -1,4 +1,5 @@
 export const TILE_SIZE = 32
+export const MIN_CONFIGURABLE_HEALTH = 4
 
 export const PKT_GAMEPAD_STATE = 1
 export const PKT_MENU = 2

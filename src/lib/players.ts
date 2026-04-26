@@ -12,6 +12,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 2,
     aim: 0,
     magic: 0,
+    health: 8,
   },
   {
     sprite: "bandit",
@@ -24,6 +25,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 2,
     aim: 2,
     magic: 0,
+    health: 8,
   },
   {
     sprite: "warlock",
@@ -36,6 +38,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 1,
     aim: 0,
     magic: 2,
+    health: 8,
   },
   {
     sprite: "knight",
@@ -48,6 +51,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 3,
     aim: 0,
     magic: 0,
+    health: 8,
   },
   {
     sprite: "shield knight",
@@ -60,6 +64,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 5,
     aim: 0,
     magic: 0,
+    health: 8,
   },
   {
     sprite: "monk",
@@ -72,6 +77,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 1,
     aim: 0,
     magic: 3,
+    health: 8,
   },
   {
     sprite: "female winter barbarian",
@@ -84,6 +90,7 @@ export const playerPresets: PlayerPreset[] = [
     defence: 2,
     aim: 0,
     magic: 0,
+    health: 8,
   },
   {
     sprite: "female wizard",
@@ -96,5 +103,6 @@ export const playerPresets: PlayerPreset[] = [
     defence: 1,
     aim: 0,
     magic: 3,
+    health: 8,
   },
 ]

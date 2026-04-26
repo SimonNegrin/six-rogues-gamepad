@@ -2,7 +2,11 @@
   import type { PlayerPreset } from "../types"
   import Button from "./Button.svelte"
   import { sendData } from "./connection.svelte"
-  import { PKT_PLAYER_ACCEPT, PKT_PLAYER_CONFIG } from "./contants"
+  import {
+    MIN_CONFIGURABLE_HEALTH,
+    PKT_PLAYER_ACCEPT,
+    PKT_PLAYER_CONFIG,
+  } from "./contants"
   import InputText from "./InputText.svelte"
   import { playerPresets } from "./players"
   import SpriteRogue from "./SpriteRogue.svelte"
@@ -11,7 +15,7 @@
 
   type ConfigurableStat = keyof Pick<
     PlayerPreset,
-    "attack" | "defence" | "movement" | "actions" | "aim" | "magic"
+    "attack" | "defence" | "movement" | "actions" | "aim" | "magic" | "health"
   >
 
   const FIRST_LEVEL_COST = 2
@@ -23,6 +27,7 @@
     actions: 2,
     aim: 1,
     magic: 1,
+    health: 1,
   }
 
   let presetIndex = $state(0)
@@ -49,6 +54,7 @@
 
   function decrementStat(stat: ConfigurableStat): void {
     if (preset[stat] === 0) return
+    if (stat === "health" && preset[stat] <= MIN_CONFIGURABLE_HEALTH) return
     const newLevel = Math.max(0, preset[stat] - 1)
     const points = newLevel === 0 ? FIRST_LEVEL_COST : statCost[stat]
     preset[stat] = newLevel
@@ -104,7 +110,7 @@
       {/if}
     </div>
 
-    <div class="p-8 pt-0 grid grid-rows-3 grid-cols-2 gap-4">
+    <div class="p-8 pt-0 grid grid-rows-3 grid-cols-3 gap-4">
       <div>
         <div class="text-xl">Movimiento</div>
         <StatCtrl
@@ -122,6 +128,16 @@
           ondecrement={() => decrementStat("actions")}
           onincrement={() => incrementStat("actions")}
           item="leather gloves"
+        />
+      </div>
+
+      <div>
+        <div class="text-xl">Salud</div>
+        <StatCtrl
+          stat={preset.health}
+          ondecrement={() => decrementStat("health")}
+          onincrement={() => incrementStat("health")}
+          item="apple"
         />
       </div>
 

@@ -26,6 +26,7 @@ export interface PlayerPreset {
   genre: "male" | "female"
   points: number
   movement: number
+  health: number
   actions: number
   attack: number
   defence: number

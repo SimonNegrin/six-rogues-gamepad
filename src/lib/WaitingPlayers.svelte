@@ -4,14 +4,20 @@
   import { sendData } from "./connection.svelte"
   import { PKT_PLAYER_READY } from "./contants"
 
+  let imReady = $state(false)
+
   function sendReady(): void {
-    const pkt = new Uint8Array(1)
-    pkt[0] = PKT_PLAYER_READY
+    if (imReady) return
+    imReady = true
+    const pkt = new Uint8Array([PKT_PLAYER_READY])
     sendData(pkt.buffer)
   }
 </script>
 
 <CenterContent>
-  <div>Waiting other players</div>
-  <Button onclick={sendReady}>I'm ready</Button>
+  {#if imReady}
+    <div>Waiting other players</div>
+  {:else}
+    <Button onclick={sendReady}>I'm ready</Button>
+  {/if}
 </CenterContent>
