@@ -106,7 +106,7 @@
     <CenterContent>
       <FullScreenBtn />
       <div {@attach cancelTouch}>
-        <GamepadBtn onchange={onNext} delay={400}>Next</GamepadBtn>
+        <GamepadBtn onchange={onNext}>Next</GamepadBtn>
       </div>
     </CenterContent>
   </div>
