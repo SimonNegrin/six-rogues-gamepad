@@ -19,12 +19,12 @@
 <div class="flex text-4xl">
   <button
     type="button"
-    class="w-12 h-12 bg-green-600 border-4 border-green-400"
+    class="w-12 h-12 bg-dark-yellow-green border-4 border-yellow-green"
     onclick={ondecrement}
   >
     -
   </button>
-  <div class="w-22 flex justify-evenly items-center bg-green-200">
+  <div class="w-22 flex justify-evenly items-center bg-extra-dark-green">
     <SpriteItem name={item} scale={1.5} />
     <div>
       {stat}
@@ -32,7 +32,7 @@
   </div>
   <button
     type="button"
-    class="w-12 h-12 border-4 border-green-400 bg-green-600"
+    class="w-12 h-12 border-4 border-yellow-green bg-dark-yellow-green"
     onclick={onincrement}
   >
     +

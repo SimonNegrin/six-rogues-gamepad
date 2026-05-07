@@ -8,7 +8,7 @@
 
 <input
   type="text"
-  class="w-65 bg-mist-600 border-mist-400 text-white text-2xl px-4 py-1 border-4 outline-0"
+  class="w-65 bg-mist-600 border-mist-400 text-mild-yellow-white text-2xl px-4 py-1 border-4 outline-0"
   bind:value
 />
 

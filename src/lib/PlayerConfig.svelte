@@ -89,7 +89,7 @@
 
     <Button
       onclick={nextPreset}
-      className="px-4 py-2 text-2xl bg-blue-600 border-4 border-blue-400 text-white"
+      className="px-4 py-2 text-2xl bg-extra-dark-purple border-4 border-dark-gray text-mild-yellow-white"
       >Siguiente</Button
     >
   </div>
@@ -105,7 +105,7 @@
       {:else}
         <Button
           onclick={accept}
-          className=" border-4 bg-green-600 border-green-400 text-white px-4 py-1 text-2xl"
+          className=" border-4 bg-dark-yellow-green border-yellow-green text-mild-yellow-white px-4 py-1 text-2xl"
           >Aceptar</Button
         >
       {/if}

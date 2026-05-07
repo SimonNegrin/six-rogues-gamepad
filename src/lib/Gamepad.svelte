@@ -93,7 +93,7 @@
 </script>
 
 <div
-  class="w-dvw h-dvh bg-amber-400 flex"
+  class="w-dvw h-dvh bg-extra-dark-blue flex"
   role="group"
   aria-label="Gamepad táctil"
   tabindex="-1"

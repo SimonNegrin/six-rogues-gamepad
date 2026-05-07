@@ -105,7 +105,7 @@
 </script>
 
 <div
-  class="w-full h-full rounded-full bg-indigo-200 flex justify-center items-center"
+  class="w-full h-full rounded-full bg-extra-dark-green flex justify-center items-center"
   tabindex="-1"
   role="button"
   ontouchstart={handleTouch}
@@ -114,7 +114,7 @@
 >
   <!-- center -->
   <div
-    class="w-24 h-24 rounded-full duration-100 bg-indigo-500"
+    class="w-24 h-24 rounded-full duration-100 bg-dark-green-blue"
     style:transform="translate({center.x}px, {center.y}px)"
   ></div>
 </div>

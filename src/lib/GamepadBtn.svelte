@@ -30,10 +30,10 @@
   <div
     class="
       absolute w-24 h-24 -top-2 -left-2
-      duration-100 bg-green-500 rounded-full
+      duration-100 bg-dark-yellow-green rounded-full
       flex justify-center items-center
     "
-    class:bg-indigo-500={isDown}
+    class:bg-extra-dark-purple={isDown}
     class:opacity-30={disabled}
     class:cursor-not-allowed={disabled}
     tabindex="-1"

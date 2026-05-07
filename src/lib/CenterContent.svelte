@@ -9,7 +9,7 @@
 </script>
 
 <div
-  class="w-full h-full flex flex-col gap-4 justify-evenly items-center text-white"
+  class="w-full h-full flex flex-col gap-4 justify-evenly items-center text-mild-yellow-white"
 >
   {@render children()}
 </div>
