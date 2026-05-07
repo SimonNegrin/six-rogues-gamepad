@@ -8,6 +8,7 @@
   import { PKT_GAMEPAD_STATE, PKT_NEXT_PLAYER } from "./contants"
   import CenterContent from "./CenterContent.svelte"
   import FullScreenBtn from "./FullScreenBtn.svelte"
+  import { globalState } from "./state.svelte"
   import type { Attachment } from "svelte/attachments"
 
   const state: GamepadState = {
@@ -113,12 +114,12 @@
   <div class="w-1/3 relative" {@attach cancelTouch}>
     <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
       <div class="h-1/3 flex justify-center items-start">
-        <GamepadBtn onchange={abtn}>
+        <GamepadBtn onchange={abtn} disabled={!globalState.player?.magic}>
           <SpriteItem name="wide-brimmed hat" scale={2} />
         </GamepadBtn>
       </div>
       <div class="h-1/3 flex justify-between items-center">
-        <GamepadBtn onchange={dbtn}>
+        <GamepadBtn onchange={dbtn} disabled={!globalState.player?.aim}>
           <SpriteItem name="arrows" scale={2} />
         </GamepadBtn>
         <GamepadBtn onchange={bbtn}>

@@ -4,18 +4,22 @@
   let {
     onchange,
     children,
+    disabled = false,
   }: {
     onchange: (isDown: boolean) => void
     children: Snippet
+    disabled?: boolean
   } = $props()
 
   let isDown = $state(false)
 
   function ontouchstart(): void {
+    if (disabled) return
     onchange((isDown = true))
   }
 
   function ontouchend(): void {
+    if (disabled) return
     if (isDown) {
       onchange((isDown = false))
     }
@@ -30,8 +34,11 @@
       flex justify-center items-center
     "
     class:bg-indigo-500={isDown}
+    class:opacity-30={disabled}
+    class:cursor-not-allowed={disabled}
     tabindex="-1"
     role="button"
+    aria-disabled={disabled}
     {ontouchstart}
     {ontouchend}
   >
