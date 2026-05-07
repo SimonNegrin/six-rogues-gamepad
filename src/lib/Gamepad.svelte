@@ -1,6 +1,6 @@
 <script lang="ts">
   import GamepadBtn from "./GamepadBtn.svelte"
-  import Joystick from "./Joystick.svelte"
+  import DPad from "./DPad.svelte"
   import type { GamepadState, JoystickState } from "../types"
   import { on } from "svelte/events"
   import SpriteItem from "./SpriteItem.svelte"
@@ -99,7 +99,7 @@
 >
   <div class="w-1/3 relative" {@attach cancelTouch}>
     <div class="absolute bottom-4 left-4 w-65 h-65">
-      <Joystick onchange={onjoystick} />
+      <DPad onchange={onjoystick} />
     </div>
   </div>
   <div class="w-1/3">
