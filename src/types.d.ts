@@ -27,6 +27,7 @@ export interface PlayerPreset {
   points: number
   movement: number
   health: number
+  maxHealth: number
   actions: number
   attack: number
   defence: number

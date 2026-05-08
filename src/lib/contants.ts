@@ -11,3 +11,4 @@ export const PKT_ENABLE_TURN = 7
 export const PKT_DISABLE_TURN = 8
 export const PKT_NEXT_PLAYER = 9
 export const PKT_PLAYER_HEALTH = 10
+export const PKT_PLAYER_STATE_SYNC = 11

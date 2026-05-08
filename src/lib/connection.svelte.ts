@@ -53,8 +53,12 @@ let signalingConnection: SignalingConnection | undefined
 let dataChannel: RTCDataChannel | undefined
 
 export async function connect(roomId: string): Promise<void> {
-  if (![CONN_CLOSED, CONN_ERROR].includes(connection.status)) {
-    throw new Error("Connection is not closed")
+  if (connection.status === CONN_OPENNING) {
+    throw new Error("Connection is already opening")
+  }
+
+  if (connection.status === CONN_OPEN) {
+    clearConnection()
   }
 
   connection.status = CONN_OPENNING
@@ -106,6 +110,15 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
     }
   })
 
+  peerConnection.addEventListener("iceconnectionstatechange", () => {
+    const state = peerConnection!.iceConnectionState
+    log("iceConnectionState:", state)
+    if (state === "disconnected" || state === "failed") {
+      connection.status = CONN_CLOSED
+      clearConnection()
+    }
+  })
+
   peerConnection.addEventListener("datachannel", (event) => {
     dataChannel = event.channel
 
@@ -126,6 +139,12 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
       signalingConnection?.disconnect()
       signalingConnection = undefined
       connection.status = CONN_OPEN
+    })
+
+    dataChannel.addEventListener("close", () => {
+      log("Data channel closed")
+      connection.status = CONN_CLOSED
+      clearConnection()
     })
 
     dataChannel.addEventListener("error", (event) => {
@@ -152,7 +171,7 @@ function onSignalingDisconnect(): void {
   log("Signaling disconnected")
 }
 
-function clearConnection(): void {
+export function clearConnection(): void {
   peerConnection?.close()
   signalingConnection?.disconnect()
   dataChannel?.close()
