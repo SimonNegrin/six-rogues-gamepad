@@ -74,6 +74,8 @@
     // Send the final player config to the game screen
     sendPreset(PKT_PLAYER_ACCEPT, preset)
     globalState.player = preset
+    globalState.maxHealth = preset.health
+    globalState.health = preset.health
   }
 </script>
 

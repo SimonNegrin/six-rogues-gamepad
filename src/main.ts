@@ -6,6 +6,7 @@ import {
   PKT_DISABLE_TURN,
   PKT_ENABLE_TURN,
   PKT_GAME_START,
+  PKT_PLAYER_HEALTH,
 } from "./lib/contants"
 import { globalState } from "./lib/state.svelte"
 
@@ -19,6 +20,10 @@ onPkt(PKT_ENABLE_TURN, () => {
 
 onPkt(PKT_DISABLE_TURN, () => {
   globalState.myTurn = false
+})
+
+onPkt(PKT_PLAYER_HEALTH, (pkt) => {
+  globalState.health = pkt[1]
 })
 
 const app = mount(App, {

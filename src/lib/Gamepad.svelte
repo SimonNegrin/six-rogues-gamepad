@@ -90,46 +90,64 @@
     on(el, "touchmove", preventDefault, { passive: false })
     on(el, "touchend", preventDefault, { passive: false })
   }
+
+  function calcHealth(health: number, maxHealth: number): number {
+    if (maxHealth === 0) return 0
+    return 100 * (health / maxHealth)
+  }
 </script>
 
 <div
-  class="w-dvw h-dvh bg-extra-dark-blue flex"
+  class="w-dvw h-dvh bg-extra-dark-blue flex flex-col"
   role="group"
   aria-label="Gamepad táctil"
   tabindex="-1"
 >
-  <div class="w-1/3 relative" {@attach cancelTouch}>
-    <div class="absolute bottom-4 left-4 w-65 h-65">
-      <DPad onchange={onjoystick} />
+  <div class="h-12 shrink-0 flex items-center px-4 bg-extra-dark-blue/80">
+    <div class="w-full h-4 bg-dark-gray border-2 border-extra-dark-blue rounded-sm overflow-hidden">
+      <div
+        class="h-full bg-tomato-red transition-all duration-200"
+        style:width="{calcHealth(globalState.health, globalState.maxHealth)}%"
+      ></div>
     </div>
+    <span class="ml-2 text-sm text-mild-yellow-white font-bold shrink-0"
+      >{globalState.health}/{globalState.maxHealth}</span
+    >
   </div>
-  <div class="w-1/3">
-    <CenterContent>
-      <FullScreenBtn />
-      <div {@attach cancelTouch}>
-        <GamepadBtn onchange={onNext}>Next</GamepadBtn>
+  <div class="flex-1 flex">
+    <div class="w-1/3 relative" {@attach cancelTouch}>
+      <div class="absolute bottom-4 left-4 w-65 h-65">
+        <DPad onchange={onjoystick} />
       </div>
-    </CenterContent>
-  </div>
-  <div class="w-1/3 relative" {@attach cancelTouch}>
-    <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
-      <div class="h-1/3 flex justify-center items-start">
-        <GamepadBtn onchange={abtn} disabled={!globalState.player?.magic}>
-          <SpriteItem name="wide-brimmed hat" scale={2} />
-        </GamepadBtn>
-      </div>
-      <div class="h-1/3 flex justify-between items-center">
-        <GamepadBtn onchange={dbtn} disabled={!globalState.player?.aim}>
-          <SpriteItem name="arrows" scale={2} />
-        </GamepadBtn>
-        <GamepadBtn onchange={bbtn}>
-          <SpriteItem name="short sword" scale={2} />
-        </GamepadBtn>
-      </div>
-      <div class="h-1/3 flex justify-center items-end">
-        <GamepadBtn onchange={cbtn}>
-          <SpriteItem name="leather boots" scale={2} />
-        </GamepadBtn>
+    </div>
+    <div class="w-1/3">
+      <CenterContent>
+        <FullScreenBtn />
+        <div {@attach cancelTouch}>
+          <GamepadBtn onchange={onNext}>Next</GamepadBtn>
+        </div>
+      </CenterContent>
+    </div>
+    <div class="w-1/3 relative" {@attach cancelTouch}>
+      <div class="absolute bottom-4 right-4 w-65 h-65 flex flex-col">
+        <div class="h-1/3 flex justify-center items-start">
+          <GamepadBtn onchange={abtn} disabled={!globalState.player?.magic}>
+            <SpriteItem name="wide-brimmed hat" scale={2} />
+          </GamepadBtn>
+        </div>
+        <div class="h-1/3 flex justify-between items-center">
+          <GamepadBtn onchange={dbtn} disabled={!globalState.player?.aim}>
+            <SpriteItem name="arrows" scale={2} />
+          </GamepadBtn>
+          <GamepadBtn onchange={bbtn}>
+            <SpriteItem name="short sword" scale={2} />
+          </GamepadBtn>
+        </div>
+        <div class="h-1/3 flex justify-center items-end">
+          <GamepadBtn onchange={cbtn}>
+            <SpriteItem name="leather boots" scale={2} />
+          </GamepadBtn>
+        </div>
       </div>
     </div>
   </div>
