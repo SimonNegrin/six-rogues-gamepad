@@ -26,7 +26,7 @@
   </button>
   <div class="w-22 flex justify-evenly items-center bg-extra-dark-green">
     <SpriteItem name={item} scale={1.5} />
-    <div>
+    <div class="text-mild-yellow-white">
       {stat}
     </div>
   </div>

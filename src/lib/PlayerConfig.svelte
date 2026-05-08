@@ -100,7 +100,7 @@
       <InputText bind:value={preset.name} />
 
       {#if preset.points}
-        <div class="text-2xl">
+        <div class="text-2xl text-mild-yellow-white">
           {preset.points}
           {preset.points === 1 ? "punto restante" : "puntos restantes"}
         </div>
@@ -115,7 +115,7 @@
 
     <div class="p-8 pt-0 grid grid-rows-3 grid-cols-3 gap-4">
       <div>
-        <div class="text-xl">Movimiento</div>
+        <div class="text-xl text-mild-yellow-white">Movimiento</div>
         <StatCtrl
           stat={preset.movement}
           ondecrement={() => decrementStat("movement")}
@@ -125,7 +125,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Acciones</div>
+        <div class="text-xl text-mild-yellow-white">Acciones</div>
         <StatCtrl
           stat={preset.actions}
           ondecrement={() => decrementStat("actions")}
@@ -135,7 +135,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Salud</div>
+        <div class="text-xl text-mild-yellow-white">Salud</div>
         <StatCtrl
           stat={preset.health}
           ondecrement={() => decrementStat("health")}
@@ -145,7 +145,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Ataque</div>
+        <div class="text-xl text-mild-yellow-white">Ataque</div>
         <StatCtrl
           stat={preset.attack}
           ondecrement={() => decrementStat("attack")}
@@ -155,7 +155,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Defensa</div>
+        <div class="text-xl text-mild-yellow-white">Defensa</div>
         <StatCtrl
           stat={preset.defence}
           ondecrement={() => decrementStat("defence")}
@@ -165,7 +165,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Puntería</div>
+        <div class="text-xl text-mild-yellow-white">Puntería</div>
         <StatCtrl
           stat={preset.aim}
           ondecrement={() => decrementStat("aim")}
@@ -175,7 +175,7 @@
       </div>
 
       <div>
-        <div class="text-xl">Magia</div>
+        <div class="text-xl text-mild-yellow-white">Magia</div>
         <StatCtrl
           stat={preset.magic}
           ondecrement={() => decrementStat("magic")}
