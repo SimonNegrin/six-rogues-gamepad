@@ -121,6 +121,7 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
 
   peerConnection.addEventListener("datachannel", (event) => {
     dataChannel = event.channel
+    dataChannel.binaryType = "arraybuffer"
 
     dataChannel.addEventListener("message", (event) => {
       log("Message received")
@@ -134,12 +135,18 @@ async function onOffer(offer: RTCSessionDescriptionInit): Promise<void> {
       handlers.forEach((handler) => handler(pkt))
     })
 
-    dataChannel.addEventListener("open", () => {
+    const onOpen = () => {
       log("Data channel open")
       signalingConnection?.disconnect()
       signalingConnection = undefined
       connection.status = CONN_OPEN
-    })
+    }
+
+    if (dataChannel.readyState === "open") {
+      onOpen()
+    } else {
+      dataChannel.addEventListener("open", onOpen)
+    }
 
     dataChannel.addEventListener("close", () => {
       log("Data channel closed")
