@@ -145,7 +145,7 @@
         class="panel-outset absolute bottom-4 right-4 w-65 h-65 bg-extra-dark-blue/30 border-[6px] border-dark-gray p-4"
       >
         <div class="action-grid w-full h-full gap-2">
-          {#if globalState.player?.magic}
+          {#if globalState.canCastMagic}
             <div class="action-slot action-a flex items-center justify-center">
               <GamepadBtn onchange={abtn}>
                 <SpriteItem name="wide-brimmed hat" scale={2} />
@@ -153,7 +153,7 @@
             </div>
           {/if}
 
-          {#if globalState.player?.magic}
+          {#if globalState.canCastMagic}
             <div class="action-slot action-d flex items-center justify-center">
               <GamepadBtn onchange={dbtn}>
                 <SpriteItem name="arrows" scale={2} />

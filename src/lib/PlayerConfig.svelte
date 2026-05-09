@@ -74,6 +74,7 @@
     // Send the final player config to the game screen
     sendPreset(PKT_PLAYER_ACCEPT, preset)
     globalState.player = preset
+    globalState.canCastMagic = preset.magic > 0
     globalState.maxHealth = preset.health
     globalState.health = preset.health
   }

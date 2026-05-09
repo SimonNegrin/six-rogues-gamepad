@@ -30,23 +30,35 @@ onPkt(PKT_PLAYER_HEALTH, (pkt) => {
 onPkt(PKT_PLAYER_STATE_SYNC, (pkt) => {
   const decoder = new TextDecoder()
   const state = JSON.parse(decoder.decode(pkt.slice(1)))
-  globalState.player = {
-    sprite: state.sprite,
-    name: state.name,
-    genre: state.genre,
-    points: 0,
-    movement: state.movement,
-    health: state.health,
-    maxHealth: state.maxHealth,
-    actions: state.actions,
-    attack: state.attack,
-    defence: state.defence,
-    aim: state.aim,
-    magic: state.magic,
+  globalState.canCastMagic = Boolean(
+    typeof state.canCastMagic === "boolean"
+      ? state.canCastMagic
+      : state.magic > 0,
+  )
+  if (typeof state.inGame === "boolean") {
+    globalState.inGame = state.inGame
   }
-  globalState.health = state.health
-  globalState.maxHealth = state.maxHealth
-  globalState.inGame = true
+  const shouldHydratePlayer =
+    globalState.player !== undefined || state.inGame === true
+
+  if (shouldHydratePlayer) {
+    globalState.player = {
+      sprite: state.sprite,
+      name: state.name,
+      genre: state.genre,
+      points: 0,
+      movement: state.movement,
+      health: state.health,
+      maxHealth: state.maxHealth,
+      actions: state.actions,
+      attack: state.attack,
+      defence: state.defence,
+      aim: state.aim,
+      magic: state.magic,
+    }
+    globalState.health = state.health
+    globalState.maxHealth = state.maxHealth
+  }
 })
 
 const app = mount(App, {
