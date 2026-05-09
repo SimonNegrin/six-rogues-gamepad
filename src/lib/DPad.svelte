@@ -1,4 +1,5 @@
 <script lang="ts">
+  import GamepadBtn from "./GamepadBtn.svelte"
   import type { JoystickState } from "../types"
 
   let {
@@ -7,12 +8,12 @@
     onchange: (state: JoystickState) => void
   } = $props()
 
-  let lastState: JoystickState = {
+  let lastState = $state<JoystickState>({
     top: false,
     right: false,
     bottom: false,
     left: false,
-  }
+  })
 
   function isEqualState(a: JoystickState, b: JoystickState): boolean {
     return (
@@ -54,92 +55,114 @@
   }
 </script>
 
-<svg
-  width="100%"
-  height="100%"
-  viewBox="0 0 600 600"
-  version="1.1"
-  xmlns="http://www.w3.org/2000/svg"
-  style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-  role="group"
->
-  <g
-    role="button"
-    ontouchstart={(e) => {
-      e.preventDefault()
-      activate("bottom")
-    }}
-    ontouchend={(e) => {
-      e.preventDefault()
-      deactivate()
-    }}
-    tabindex="0"
+<div class="dpad w-full h-full">
+  <div
+    class="dpad-frame w-full h-full p-2 bg-extra-dark-green border-[6px] border-dark-gray"
   >
-    <!-- Down -->
-    <path
-      d="M333.079,394.204L479.33,540.455C429.281,577.853 367.207,600 300,600C232.793,600 170.719,577.853 120.67,540.455L266.921,394.204C277.275,397.844 288.408,399.825 300,399.825C311.592,399.825 322.725,397.844 333.079,394.204Z"
-      fill="#432142"
-    />
-    <polygon points="300,530 270,470 330,470" fill="#8eb89e" />
-  </g>
+    <div class="dpad-grid w-full h-full gap-2">
+      <div class="dpad-slot dpad-top">
+        <GamepadBtn
+          onchange={(isDown) => {
+            if (isDown) activate("top")
+            else deactivate()
+          }}
+        >
+          <span class="dpad-glyph text-light-green-blue">▲</span>
+        </GamepadBtn>
+      </div>
 
-  <g
-    role="button"
-    ontouchstart={(e) => {
-      e.preventDefault()
-      activate("top")
-    }}
-    tabindex="0"
-    ontouchend={(e) => {
-      e.preventDefault()
-      deactivate()
-    }}
-  >
-    <!-- Up -->
-    <path
-      d="M120.67,59.545C170.719,22.147 232.793,0 300,0C367.207,0 429.281,22.147 479.33,59.545L333.079,205.796C322.725,202.156 311.592,200.175 300,200.175C288.408,200.175 277.275,202.156 266.921,205.796L120.67,59.545Z"
-      fill="#432142"
-    />
-    <polygon points="300,70 270,130 330,130" fill="#8eb89e" />
-  </g>
+      <div class="dpad-slot dpad-left">
+        <GamepadBtn
+          onchange={(isDown) => {
+            if (isDown) activate("left")
+            else deactivate()
+          }}
+        >
+          <span class="dpad-glyph text-light-green-blue">◀</span>
+        </GamepadBtn>
+      </div>
 
-  <g
-    role="button"
-    tabindex="0"
-    ontouchstart={(e) => {
-      e.preventDefault()
-      activate("right")
-    }}
-    ontouchend={(e) => {
-      e.preventDefault()
-      deactivate()
-    }}
-  >
-    <!-- Right -->
-    <path
-      d="M540.455,120.67C577.853,170.719 600,232.793 600,300C600,367.207 577.853,429.281 540.455,479.33L394.204,333.079C397.844,322.725 399.825,311.592 399.825,300C399.825,288.408 397.844,277.275 394.204,266.921L540.455,120.67Z"
-      fill="#432142"
-    />
-    <polygon points="530,300 470,270 470,330" fill="#8eb89e" />
-  </g>
+      <div class="dpad-center bg-dark-gray"></div>
 
-  <g
-    role="button"
-    tabindex="0"
-    ontouchstart={(e) => {
-      e.preventDefault()
-      activate("left")
-    }}
-    ontouchend={(e) => {
-      e.preventDefault()
-      deactivate()
-    }}
-  >
-    <!-- Left -->
-    <path
-      d="M59.545,120.67L205.796,266.921C202.156,277.275 200.175,288.408 200.175,300C200.175,311.592 202.156,322.725 205.796,333.079L59.545,479.33C22.147,429.281 0,367.207 0,300C0,232.793 22.147,170.719 59.545,120.67Z"
-      fill="#432142"
-    />
-    <polygon points="70,300 130,270 130,330" fill="#8eb89e" />
-  </g>
-</svg>
+      <div class="dpad-slot dpad-right">
+        <GamepadBtn
+          onchange={(isDown) => {
+            if (isDown) activate("right")
+            else deactivate()
+          }}
+        >
+          <span class="dpad-glyph text-light-green-blue">▶</span>
+        </GamepadBtn>
+      </div>
+
+      <div class="dpad-slot dpad-bottom">
+        <GamepadBtn
+          onchange={(isDown) => {
+            if (isDown) activate("bottom")
+            else deactivate()
+          }}
+        >
+          <span class="dpad-glyph text-light-green-blue">▼</span>
+        </GamepadBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dpad-frame {
+    border-style: outset;
+    box-shadow:
+      inset 2px 2px 0 rgba(246, 242, 195, 0.15),
+      inset -2px -2px 0 rgba(22, 13, 19, 0.45),
+      0 6px 0 rgba(22, 13, 19, 0.25);
+  }
+
+  .dpad-glyph {
+    font-size: 2.25rem;
+    line-height: 1;
+    filter: drop-shadow(1px 1px 0 rgba(22, 13, 19, 0.45));
+  }
+
+  .dpad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      ". top ."
+      "left center right"
+      ". bottom .";
+  }
+
+  .dpad-top {
+    grid-area: top;
+  }
+
+  .dpad-left {
+    grid-area: left;
+  }
+
+  .dpad-right {
+    grid-area: right;
+  }
+
+  .dpad-bottom {
+    grid-area: bottom;
+  }
+
+  .dpad-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dpad-center {
+    grid-area: center;
+    border-style: inset;
+    border-width: 6px;
+    border-color: var(--color-dark-gray);
+    box-shadow:
+      inset 2px 2px 0 rgba(22, 13, 19, 0.35),
+      inset -2px -2px 0 rgba(246, 242, 195, 0.1);
+  }
+</style>
